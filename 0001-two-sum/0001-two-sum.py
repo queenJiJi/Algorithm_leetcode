@@ -1,21 +1,15 @@
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
-        # SOL1 - Brute Force
-        # n = len(nums)
-        # for i in range(n-1): 
-        #     for j in range(i+1,n):
-        #         if nums[i]+nums[j] == target:
-        #             return [i,j]
-        # return []
+class Solution(object):
+    def twoSum(self, nums, target):
+        nums = [[idx,val] for idx,val in enumerate(nums)]
+        nums.sort(key=lambda x:x[1])
+        l, r = 0, len(nums)-1
+        while l<r:
+            twosum = nums[l][1] + nums[r][1]
 
-        # SOL2 - Hashmap
-        hashmap= {}
-        n= len(nums)
-        for i in range(n):
-            hashmap[nums[i]] = i
-        
-        for i in range(n):
-            complement = target - nums[i]
-            if complement in hashmap and i!=hashmap[complement]:
-                return [i, hashmap[complement]]
-        return []
+            if target>twosum:
+                l+=1
+            elif target<twosum:
+                r-=1
+            else:
+                return [nums[l][0], nums[r][0]]
+        return False
