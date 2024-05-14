@@ -1,15 +1,14 @@
-class Solution:
-    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        visited= [False]*len(rooms)
+class Solution(object):
+    def canVisitAllRooms(self, rooms):
+       # dfs 
+        visit = [False] * len(rooms)
 
-        def dfs(start_v):
-            visited[start_v] = True
+        def dfs(cur_v):
+            visit[cur_v] = True
 
-            for next_v in rooms[start_v]:
-                if visited[next_v] == False:
+            for next_v in rooms[cur_v]:
+                if not visit[next_v]:
                     dfs(next_v)
-            return visited 
-        
         dfs(0)
 
-        return True if all(visited) else False 
+        return all(visit)                    
