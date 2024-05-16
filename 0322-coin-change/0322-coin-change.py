@@ -1,11 +1,17 @@
+from collections import deque
 class Solution(object):
     def coinChange(self, coins, amount):
-        dp = [amount+1] * (amount+1)
-        dp[0] =0 
-        
-        for a in range(amount+1):
+        q= deque([(amount,0)])
+        visited= set()
+        while q:
+            cur_amount, num_coin = q.popleft()
+            
+            if cur_amount == 0:
+                return num_coin
+
             for coin in coins:
-                if a-coin >= 0:
-                    dp[a] = min(dp[a], 1+dp[a-coin])
-        return dp[amount] if dp[amount]!=amount+1 else -1
-        
+                next_coin = cur_amount - coin
+                if next_coin not in visited and next_coin>=0:
+                    q.append((next_coin, num_coin+1))
+                    visited.add(next_coin)
+        return -1
