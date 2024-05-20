@@ -1,32 +1,31 @@
-from collections import deque
+class Solution(object):
+    def shortestPathBinaryMatrix(self, grid):
+        row_len,col_len = len(grid), len(grid[0])
+        visited = [[False]*col_len for _ in range(row_len)]
+        dr = [-1, 1, 0, 0, 1, 1, -1, -1] 
+        dc = [0, 0, -1, 1, -1, 1, -1, 1]
 
-class Solution:
-    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
-        path_count = -1
-        row,col = len(grid), len(grid[0])
-        visited = [[False]*col for _ in range(row)]
-        q = deque()
-        q.append((0,0,1))
-        visited[0][0] = True
-        # 애초에 갈 수 경로가 없는 경우: grid에 하나만 있는 경우, 첫 시작이 1인 경우 return -1
-        if grid[0][0]== 1 or grid[0][0]== []:
+        def bfs(r,c, path):
+            q = deque()
+            q.append((r,c,path))
+            visited[r][c] = True
+            
+            if grid[0][0] == 1 or grid[row_len-1][col_len-1] ==1:
+                return -1
+
+            while q:
+                cur_r,cur_c,cur_path=q.popleft()
+
+                if cur_r==row_len-1 and cur_c==col_len-1:
+                    return cur_path
+
+                for i in range(8):
+                    next_r, next_c = cur_r+dr[i], cur_c+dc[i]
+                    if 0<=next_r<row_len and 0<=next_c<col_len and grid[next_r][next_c] == 0:
+                        if not visited[next_r][next_c]:
+                            q.append((next_r,next_c,cur_path+1))
+                            visited[next_r][next_c]= True
             return -1
-        
-        while q:
-            cur_x, cur_y,path = q.popleft()
-            if cur_x == (row-1) and cur_y == (col-1): # 목적지에 도착했을 때
-                path_count = path
-                break
-            visited[cur_x][cur_y] = True 
-            # 대각선도 다 연결되어있으니까 방향이 8가지임
-            dr = [-1, 1, 0, 0, -1, -1,1,1]
-            dc = [0, 0, -1, 1, 1, -1,1,-1]    
-            for i in range(8):
-                next_x = cur_x + dr[i]
-                next_y = cur_y + dc[i]
 
-                if next_x>=0 and next_x<row and next_y>=0 and next_y<col:
-                    if visited[next_x][next_y]==False and grid[next_x][next_y] ==0:
-                        q.append((next_x, next_y,path+1))
-                        visited[next_x][next_y] = True
-        return path_count
+        return bfs(0,0,1)
+                
