@@ -1,26 +1,25 @@
-class Solution:
-    def numIslands(self, grid: List[List[str]]) -> int:
-        num_of_island = 0
-        row_len = len(grid)
-        col_len = len(grid[0])
-        visited = [[False]* col_len for _ in range(row_len)]
+class Solution(object):
+    def numIslands(self, grid):
+        row_len,col_len = len(grid), len(grid[0])
+        visited=[[False]*col_len for _ in range(row_len)]
+        count = 0
+        dr = [-1, 1, 0, 0]
+        dc = [0, 0, -1, 1]
 
         def dfs(r,c):
-            dr= [-1,1,0,0]
-            dc= [0,0,-1,1]
             visited[r][c] = True
 
             for i in range(4):
-                nr = r+dr[i]
-                nc = c+dc[i]
-                if nr>=0 and nr<row_len and nc>=0 and nc<col_len:
-                    if grid[nr][nc]=="1"and visited[nr][nc]==False:
-                        dfs(nr,nc)
+                next_r = r+ dr[i]
+                next_c = c+ dc[i]
 
-        for row in range(row_len):
-            for col in range(col_len):
-                if grid[row][col] == "1" and visited[row][col] == False:
-                    dfs(row,col)
-                    num_of_island+=1
-
-        return num_of_island
+                if 0<=next_r<row_len and 0<=next_c<col_len and grid[next_r][next_c] == "1":
+                    if not visited[next_r][next_c]:
+                        dfs(next_r,next_c)
+                        visited[next_r][next_c] = True
+        for i in range(row_len):
+            for j in range(col_len):
+                if grid[i][j] == "1" and not visited[i][j]:
+                    dfs(i,j)
+                    count+=1
+        return count
