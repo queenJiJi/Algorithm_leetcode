@@ -1,25 +1,30 @@
+import collections
 class Solution(object):
     def numIslands(self, grid):
-        row_len,col_len = len(grid), len(grid[0])
-        visited=[[False]*col_len for _ in range(row_len)]
+        q = collections.deque()
+        m,n = len(grid), len(grid[0])
+        visited = [[False]*n for _ in range(m)]
         count = 0
-        dr = [-1, 1, 0, 0]
-        dc = [0, 0, -1, 1]
 
-        def dfs(r,c):
-            visited[r][c] = True
+        def bfs(r,c):
+            q.append((r,c))
+            while q:
+                cur_r,cur_c = q.popleft()
+                visited[cur_r][cur_c] = True
+                
+                for dr,dc in [[-1,0],[1,0],[0,-1],[0,1]]:
+                    next_r,next_c = cur_r+dr, cur_c+dc
+                    if 0<=next_r<m and 0<=next_c<n and grid[next_r][next_c]=='1':
+                        if not visited[next_r][next_c]:
+                            q.append((next_r,next_c))
+                            visited[next_r][next_c] = True
 
-            for i in range(4):
-                next_r = r+ dr[i]
-                next_c = c+ dc[i]
-
-                if 0<=next_r<row_len and 0<=next_c<col_len and grid[next_r][next_c] == "1":
-                    if not visited[next_r][next_c]:
-                        dfs(next_r,next_c)
-                        visited[next_r][next_c] = True
-        for i in range(row_len):
-            for j in range(col_len):
-                if grid[i][j] == "1" and not visited[i][j]:
-                    dfs(i,j)
+        for r in range(m):
+            for c in range(n):
+                if grid[r][c] == '1' and not visited[r][c]:
+                    bfs(r,c)
                     count+=1
         return count
+
+
+        
