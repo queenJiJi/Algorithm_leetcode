@@ -1,14 +1,13 @@
 class Solution(object):
     def subsets(self, nums):
-        def backtrack(start,cur,result):
-            result.append(cur[:])
+        ans = []
+        def backtrack(start,result):
+            result.append(ans[:])
 
             for i in range(start,len(nums)):
-                cur.append(nums[i])
-                backtrack(i+1, cur,result)
-                cur.pop()
+                ans.append(nums[i])
+                backtrack(i+1,result)
+                ans.pop()
             return result
-
-        return backtrack(0,[],[])
-
+        return backtrack(0,[])
         
