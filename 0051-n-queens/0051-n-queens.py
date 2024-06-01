@@ -1,28 +1,28 @@
 class Solution(object):
     def solveNQueens(self, n):
-        result = []
         board = [['.']*n for _ in range(n)]
-        cols,leftDiag,rightDiag = set(),set(),set()
-
+        cols, leftDiag, rightDiag = set(),set(),set()
+        result = []
         def backtrack(row):
+            # base case
             if row == n:
                 copy_row = [''.join(r) for r in board]
                 result.append(copy_row)
                 return
-            
+
             for col in range(n):
-                if (col in cols or (row-col) in leftDiag or (row+col) in rightDiag):
+                # 놓을 수 없는 케이스
+                if (col in cols or (col-row) in rightDiag or (col+row) in leftDiag):
                     continue
                 
                 cols.add(col)
-                leftDiag.add((row-col))
-                rightDiag.add((row+col))
+                rightDiag.add(col-row)
+                leftDiag.add(col+row)
                 board[row][col] = 'Q'
                 backtrack(row+1)
                 cols.remove(col)
-                leftDiag.remove((row-col))
-                rightDiag.remove((row+col))
+                rightDiag.remove(col-row)
+                leftDiag.remove(col+row)
                 board[row][col] = '.'
-            return result
-        return backtrack(0)
-                
+        backtrack(0)
+        return result
