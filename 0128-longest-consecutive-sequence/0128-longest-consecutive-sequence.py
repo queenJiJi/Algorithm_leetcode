@@ -1,17 +1,14 @@
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        nums_dict = {}
-        answer =0
-
-        for i in nums:
-            nums_dict[i] = True
-
-        for num in nums_dict:
-            if num-1 not in nums_dict:
+class Solution(object):
+    def longestConsecutive(self, nums):
+        hashset = set(nums)
+        count, answer = 0,0
+        for val in hashset:
+            if val-1 not in hashset:
                 count = 1
-                target = num+1
-                while target in nums_dict:
-                    count +=1
-                    target +=1
-                answer = max(answer,count)
+                next = val+1
+                while next in hashset:
+                    count += 1
+                    next += 1 
+                answer = max(count, answer)
         return answer
+        
