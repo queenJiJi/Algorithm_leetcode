@@ -1,10 +1,13 @@
-class Solution:
-    def climbStairs(self, n: int) -> int:
-        # bottom up
-        dp = [-1] * (n+1)
-        dp[0] = 1
-        dp[1] = 1
-        
-        for i in range(2,n+1):
-            dp[i] = dp[i-1] + dp[i-2]
-        return dp[n] 
+class Solution(object):
+    def climbStairs(self, n):
+        memo = [-1] * (n+1)        
+
+        def dp(n):
+            # base case
+            if n==0 or n == 1:
+                memo[n] = 1
+            
+            if memo[n] == -1:
+                memo[n] = dp(n-1) + dp(n-2)
+            return memo[n]
+        return dp(n)
