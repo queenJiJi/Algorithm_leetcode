@@ -1,21 +1,13 @@
-from collections import deque
 class Solution(object):
     def coinChange(self, coins, amount):
-      
-        q = deque()
-        q.append((amount,0))
-        visited=set()
-        while q:
-            cur_amount,num_coins = q.popleft()
-            visited.add(cur_amount)
+        dp = [float('inf')] * (amount+1)
 
-            if cur_amount == 0:
-                return num_coins
+        dp[0] = 0
 
-            for coin in coins:
-                next_amount = cur_amount-coin
-                if next_amount >= 0 and next_amount not in visited:
-                    visited.add(next_amount)
-                    q.append((next_amount,num_coins+1)) 
+        for a in range(1,amount+1):
+            for c in coins:
+                if a-c>=0:
+                    dp[a] = min(dp[a],dp[a-c]+1)
+        return -1 if dp[amount] == float('inf') else dp[amount]
 
-        return -1
+    
