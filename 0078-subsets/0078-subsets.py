@@ -1,13 +1,7 @@
+from itertools import combinations
 class Solution(object):
     def subsets(self, nums):
-        ans = []
-        def backtrack(start,result):
-            result.append(ans[:])
-
-            for i in range(start,len(nums)):
-                ans.append(nums[i])
-                backtrack(i+1,result)
-                ans.pop()
-            return result
-        return backtrack(0,[])
-        
+        answer= []
+        for i in range(len(nums)+1):
+            answer.extend(list(combinations(nums, i)))
+        return answer        
