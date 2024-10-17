@@ -1,28 +1,21 @@
 class Solution(object):
     def combine(self, n, k):
-        # def backtrack(start, cur, result):
-        #     if len(cur) == k:
-        #         result.append(cur[:])
-        #         return
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        answer = []
 
-        #     for i in range(start, n+1):
-        #         cur.append(i)
-        #         backtrack(i+1,cur,result)
-        #         cur.pop()
+        def backtrack(start, tmp):
+            if len(tmp) == k:
+                answer.append(tmp[:])
+                return
 
-        #     return result
-
-        # return backtrack(1,[],[])
-
-        ans,result = [],[]
-        def backtrack(start):
-            if len(ans)==k:
-                result.append(ans[:])
-                return 
-            
             for i in range(start,n+1):
-                ans.append(i)
-                backtrack(i+1)
-                ans.pop()
-            return result
-        return backtrack(1)
+                tmp.append(i)
+                backtrack(i+1,tmp)
+                tmp.pop()
+
+        backtrack(1,[])
+        return answer
