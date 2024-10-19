@@ -1,16 +1,20 @@
 class Solution(object):
     def partition(self, s):
-        ans,result = [],[]
-        n = len(s)
+        answer = []
+        tmp = []
         def backtrack(start):
-            if start == n:
-                result.append(ans[:])
-            
-            for i in range(start,n):
+            if start == len(s):
+                answer.append(tmp[:])
+                return
+
+            for i in range(start,len(s)):
                 substr = s[start:i+1]
-                if substr == substr[::-1]: # check if palindrome
-                    ans.append(substr)
+                if substr == substr[::-1]:
+                    tmp.append(substr)
+                    print(tmp)
                     backtrack(i+1)
-                    ans.pop()
-            return result
-        return backtrack(0)
+                    tmp.pop()
+
+        backtrack(0)
+        return answer
+   
