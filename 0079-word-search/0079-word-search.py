@@ -1,25 +1,24 @@
 class Solution(object):
     def exist(self, board, word):
         n,m = len(board), len(board[0])
-        visited=[[False for _ in range(m)] for _ in range(n)]
-        
+        visited = set()
+
         def dfs(r,c,idx):
-            if idx == len(word):
+
+            if len(word) == idx:
                 return True
             
-            if not(0<=r<n and 0<=c<m and word[idx]==board[r][c] and not visited[r][c]):
+            if (r,c) in visited or not(0<=r<n and 0<=c<m) or word[idx]!=board[r][c]:
                 return False
 
-            visited[r][c] = True
+            visited.add((r,c))
 
-            for dx,dy in [[-1,0],[0,-1],[0,1],[1,0]]:
+            for dx,dy in [[-1,0],[0,1],[1,0],[0,-1]]:
                 nr,nc = dx+r, dy+c
                 if dfs(nr,nc,idx+1):
                     return True
-            visited[r][c] = False
-            return False
+            visited.remove((r,c))
 
-        
         for r in range(n):
             for c in range(m):
                 if board[r][c] == word[0]:
