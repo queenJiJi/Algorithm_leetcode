@@ -12,12 +12,15 @@ class Solution(object):
                 return False
 
             visited.add((r,c))
-
-            for dx,dy in [[-1,0],[0,1],[1,0],[0,-1]]:
-                nr,nc = dx+r, dy+c
-                if dfs(nr,nc,idx+1):
-                    return True
+            
+            if dfs(r+1,c,idx+1) or dfs(r-1,c,idx+1) or dfs(r,c-1,idx+1) or dfs(r,c+1,idx+1):
+                return True
+            # for dx,dy in [[-1,0],[0,1],[1,0],[0,-1]]:
+            #     nr,nc = dx+r, dy+c
+            #     if dfs(nr,nc,idx+1):
+            #         return True
             visited.remove((r,c))
+            return False
 
         for r in range(n):
             for c in range(m):
