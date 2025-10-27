@@ -1,30 +1,30 @@
 class Solution(object):
     def exist(self, board, word):
-        n,m = len(board), len(board[0])
         visited = set()
+        n,m = len(board) , len(board[0])
+        def backtrack(r,c, idx):
 
-        def dfs(r,c,idx):
-
-            if len(word) == idx:
+            if idx ==  len(word):
                 return True
-            
-            if (r,c) in visited or not(0<=r<n and 0<=c<m) or word[idx]!=board[r][c]:
+
+            if not(0<=r<n and 0<=c<m) or (r,c) in visited or word[idx]!=board[r][c]:
                 return False
 
             visited.add((r,c))
-            
-            if dfs(r+1,c,idx+1) or dfs(r-1,c,idx+1) or dfs(r,c-1,idx+1) or dfs(r,c+1,idx+1):
-                return True
-            # for dx,dy in [[-1,0],[0,1],[1,0],[0,-1]]:
-            #     nr,nc = dx+r, dy+c
-            #     if dfs(nr,nc,idx+1):
-            #         return True
-            visited.remove((r,c))
-            return False
 
+            for dr,dc in [[-1,0],[0,1],[0,-1],[1,0]]:
+                nr,nc = dr+r, dc+c
+
+                if backtrack(nr,nc,idx+1):
+                    return True
+            visited.remove((r,c))
+            
         for r in range(n):
             for c in range(m):
                 if board[r][c] == word[0]:
-                    if dfs(r,c,0):
+                    if backtrack(r,c,0):
                         return True
         return False
+
+        
+        
