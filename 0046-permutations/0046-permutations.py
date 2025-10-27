@@ -1,23 +1,17 @@
 class Solution(object):
     def permute(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        answer = []
+        answer= []
 
         def backtrack(tmp):
-            if len(nums) == len(tmp):
+            if len(tmp) == len(nums):
                 answer.append(tmp[:])
                 return
 
-            for i in range(len(nums)):
-                if nums[i] not in tmp:
-                    tmp.append(nums[i])
+            for num in nums:
+                if num not in tmp:
+                    tmp.append(num)
                     backtrack(tmp)
-                    tmp.pop()    
-
+                    tmp.pop()
         backtrack([])
         return answer
-
-
+        
