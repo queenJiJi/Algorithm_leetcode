@@ -1,7 +1,10 @@
 class Solution(object):
     def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         answer = []
-
         def backtrack(start, tmp):
             answer.append(tmp[:])
 
@@ -12,6 +15,10 @@ class Solution(object):
                 tmp.append(nums[i])
                 backtrack(i+1,tmp)
                 tmp.pop()
+            
         backtrack(0,[])
         return answer
-                
+
+
+
+        
