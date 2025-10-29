@@ -1,7 +1,10 @@
 class Solution(object):
     def partition(self, s):
-        answer = []
-        tmp = []
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        answer, tmp = [],[]
         def backtrack(start):
             if start == len(s):
                 answer.append(tmp[:])
@@ -11,10 +14,12 @@ class Solution(object):
                 substr = s[start:i+1]
                 if substr == substr[::-1]:
                     tmp.append(substr)
-                    print(tmp)
                     backtrack(i+1)
                     tmp.pop()
-
         backtrack(0)
         return answer
-   
+
+                
+
+
+        
