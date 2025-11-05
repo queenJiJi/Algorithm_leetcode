@@ -1,16 +1,15 @@
 class Solution(object):
     from collections import deque
     def canFinish(self, numCourses, prerequisites):
+        indegree = [0]*(numCourses)
         visited = []
         graph = [[] for _ in range(numCourses)]
-        indegree = [0]*numCourses
+        q = deque()
 
         for u,v in prerequisites:
             graph[v].append(u)
-            indegree[u] += 1
+            indegree[u]+=1
 
-        q = deque()
-        
         for v in range(numCourses):
             if indegree[v] == 0:
                 q.append(v)
@@ -24,5 +23,7 @@ class Solution(object):
 
                 if indegree[next_v] == 0:
                     q.append(next_v)
-        return True if len(visited) == numCourses else False
+        return True if len(visited) == numCourses else False        
+
+        
         
