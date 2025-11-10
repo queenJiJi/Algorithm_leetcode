@@ -1,31 +1,28 @@
-from collections import deque
 class Solution(object):
+    from collections import deque
     def findOrder(self, numCourses, prerequisites):
-          # 그래프, 방문을 마킹해줄 visited, indegree 저장해주는 변수들 세팅
-        graph = [[] for _ in range(numCourses)]
-        visited = []
         indegree = [0] * numCourses
+        visited = []
+        q = deque()
 
-        for i,j in prerequisites:
-            graph[j].append(i)
-            indegree[i] +=1
+        graph = [[] for _ in range(numCourses)]
 
-        # 위상 정렬 수행
-        q= deque()
-        for v in range(numCourses):
-            if indegree[v] == 0:
-                q.append(v)
-
+        for a,b in prerequisites:
+            graph[b].append(a)
+            indegree[a] += 1
+        
+        for node in range(numCourses):
+            if indegree[node] == 0:
+                q.append(node)
+        
         while q:
-            cur_v = q.popleft()
-            visited.append(cur_v)
-            
-            for next_v in graph[cur_v]:
-                indegree[next_v] -= 1
+            cur_node = q.popleft()
+            visited.append(cur_node)
 
-                if indegree[next_v] == 0:
-                    q.append(next_v)
-
-        if len(visited) != numCourses:
-            return []
-        return visited
+            for next_node in graph[cur_node]:
+                indegree[next_node] -= 1
+                if indegree[next_node] == 0:
+                    q.append(next_node)
+        return [] if len(visited)!=numCourses else visited
+                
+        
