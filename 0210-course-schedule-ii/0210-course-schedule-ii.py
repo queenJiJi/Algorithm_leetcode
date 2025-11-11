@@ -2,27 +2,25 @@ class Solution(object):
     from collections import deque
     def findOrder(self, numCourses, prerequisites):
         indegree = [0] * numCourses
-        visited = []
-        q = deque()
-
         graph = [[] for _ in range(numCourses)]
+        q = deque()
+        visited = []
 
-        for a,b in prerequisites:
-            graph[b].append(a)
-            indegree[a] += 1
+        for u,v in prerequisites:
+            graph[v].append(u)
+            indegree[u]+=1
         
         for node in range(numCourses):
             if indegree[node] == 0:
                 q.append(node)
         
         while q:
-            cur_node = q.popleft()
-            visited.append(cur_node)
+            cur_v = q.popleft()
+            visited.append(cur_v)
 
-            for next_node in graph[cur_node]:
-                indegree[next_node] -= 1
-                if indegree[next_node] == 0:
-                    q.append(next_node)
-        return [] if len(visited)!=numCourses else visited
-                
+            for next_v in graph[cur_v]:
+                indegree[next_v] -= 1
+                if indegree[next_v] == 0:
+                    q.append(next_v)
+        return [] if numCourses!=len(visited) else visited
         
